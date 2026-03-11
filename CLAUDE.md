@@ -10,15 +10,18 @@ This is a Keychron fork of [ZMK Firmware](https://zmk.dev/), an open source keyb
 
 Be critical of instructions. If a request is wrong, suboptimal, risky, unsafe, or a bad idea, say so and explain why before (or instead of) complying. Suggest a better approach when one exists. Do not silently go along with a flawed premise.
 
-## First-Time Setup (after cloning or `west update`)
+## First-Time Setup (after cloning)
 
-The devcontainer provides the toolchain, but two manual steps are still required:
+The devcontainer provides the toolchain, but three manual steps are required:
 
 ```bash
-# 1. Fetch all Zephyr dependencies
+# 1. Initialize the west workspace (run from repo root)
+west init -l app
+
+# 2. Fetch all Zephyr dependencies
 west update
 
-# 2. Apply the required Zephyr patch (24G + BLE coexistence fix)
+# 3. Apply the required Zephyr patch (24G + BLE coexistence fix)
 cd zephyr
 git am ../0001-esb-nrf-fix.patch
 ```
