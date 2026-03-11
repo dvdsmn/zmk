@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Keychron B1 Pro UK ISO — ZMK Keymap</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #e8e8e8; padding: 24px; color: #1a1a1a; }
+h1 { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+.sub { font-size: 0.78rem; color: #666; margin-bottom: 20px; }
+.note { background: #fffde7; border-left: 4px solid #eab308; padding: 10px 14px; margin-bottom: 18px; font-size: 0.8rem; border-radius: 0 4px 4px 0; max-width: 820px; line-height: 1.7; }
+.note strong { color: #92400e; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 18px; max-width: 820px; }
+.leg { display: flex; align-items: center; gap: 5px; font-size: 0.73rem; }
+.sw { width: 13px; height: 13px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.2); flex-shrink: 0; }
+.tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.tab { padding: 5px 16px; border: 1.5px solid #aaa; border-radius: 20px; cursor: pointer; background: #fff; font-size: 0.8rem; }
+.tab.on { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+.lyr { display: none; max-width: 820px; }
+.lyr.on { display: block; }
+.kb-label { font-size: 0.7rem; color: #777; margin-bottom: 5px; margin-top: 14px; }
+.kb { background: #b0b0b0; border-radius: 8px; padding: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.18); }
+.row { display: flex; gap: 4px; margin-bottom: 4px; }
+.row:last-child { margin-bottom: 0; }
+.k {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border: 1px solid #aaa; border-radius: 4px; background: #fff;
+  height: 48px; overflow: hidden; text-align: center; padding: 2px 3px; line-height: 1.3;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), inset 0 -2px 0 rgba(0,0,0,0.1);
+}
+.k .p { font-weight: 600; font-size: 0.66rem; }
+.k .s { font-size: 0.53rem; color: #777; margin-top: 1px; }
+/* flex widths */
+.f1   { flex: 1; }   .f125 { flex: 1.25; } .f15  { flex: 1.5; }
+.f175 { flex: 1.75; } .f2   { flex: 2; }   .f275 { flex: 2.75; } .f625 { flex: 6.25; }
+/* colors */
+.cn  { background: #ffffff; }
+.cm  { background: #e5e5e5; }
+.cme { background: #dbeafe; }
+.cfn { background: #dcfce7; }
+.cnv { background: #dcfce7; }
+.cl  { background: #fef9c3; border-color: #ca8a04; }
+.cbt { background: #e0f2fe; }
+.co  { background: #f3e8ff; }
+.ct  { background: #f8f8f8; color: #ccc; border-color: #e0e0e0; }
+.cx  { background: #f2f2f2; color: #bbb; border-color: #e0e0e0; }
+.cg  { background: #fef08a; border: 2px solid #eab308; }
+/* combos table */
+.combos-section { max-width: 820px; margin-top: 24px; }
+.combos-section h2 { font-size: 0.88rem; font-weight: 600; margin-bottom: 8px; color: #374151; }
+table { border-collapse: collapse; font-size: 0.77rem; width: 100%; background: #fff; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+td, th { padding: 6px 10px; border: 1px solid #e5e7eb; text-align: left; }
+th { background: #f3f4f6; font-weight: 600; }
+tr:nth-child(even) td { background: #f9fafb; }
+code { font-family: monospace; font-size: 0.85em; background: #f0f0f0; padding: 1px 4px; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<h1>Keychron B1 Pro UK ISO — ZMK Keymap</h1>
+<p class="sub">B1 Pro · UK ISO 105-key · NRF52840 · USB + BLE (5 profiles) + 2.4G</p>
+
+<div class="note">
+  <strong>★ Changes applied (shown in gold):</strong><br>
+  1. <strong>DEL → 🌐 GLOBE</strong> on Mac Layer 0 (top-right key). On macOS, forward-delete is <kbd>⌘ Cmd + Backspace</kbd> so DEL is not needed there. Windows layers keep DEL unchanged.<br>
+  2. <strong>Fn + Backspace → DEL</strong> on Mac Fn Layer 1 — restores forward-delete access on macOS without dedicating a key to it.<br>
+  3. <strong>Fn + - (hold 3s) → UF2 Bootloader</strong> on both Fn layers — enters flash/DFU mode for firmware updates.<br>
+  <br>
+  <strong>🌐 GLOBE &amp; Karabiner:</strong> Set the Keychron to "Ignore this device" in Karabiner-Elements Devices tab — GLOBE works natively without Karabiner.
+</div>
+
+<div class="legend">
+  <div class="leg"><div class="sw cn"></div> Normal</div>
+  <div class="leg"><div class="sw cm"></div> Modifier</div>
+  <div class="leg"><div class="sw cme"></div> Media / brightness</div>
+  <div class="leg"><div class="sw cfn"></div> F-key / navigation</div>
+  <div class="leg"><div class="sw cl"></div> Layer switch</div>
+  <div class="leg"><div class="sw cbt"></div> Bluetooth</div>
+  <div class="leg"><div class="sw co"></div> Output / wireless mode</div>
+  <div class="leg"><div class="sw cg" style="border:2px solid #eab308"></div> ★ Changed key</div>
+  <div class="leg"><div class="sw ct"></div> Transparent (falls through to lower layer)</div>
+  <div class="leg"><div class="sw cx"></div> No action</div>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="show(0)">Layer 0 — Mac (default)</button>
+  <button class="tab"    onclick="show(1)">Layer 1 — Mac Fn</button>
+  <button class="tab"    onclick="show(2)">Layer 2 — Windows</button>
+  <button class="tab"    onclick="show(3)">Layer 3 — Windows Fn</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     LAYER 0 — MAC DEFAULT
+══════════════════════════════════════════════════ -->
+<div class="lyr on" id="l0">
+  <div class="kb">
+    <!-- F-row -->
+    <div class="row">
+      <div class="k cn f1"><span class="p">ESC</span></div>
+      <div class="k cme f1"><span class="p">Bright↓</span></div>
+      <div class="k cme f1"><span class="p">Bright↑</span></div>
+      <div class="k cme f1"><span class="p">Mission Ctrl</span></div>
+      <div class="k cme f1"><span class="p">Launchpad</span></div>
+      <div class="k cme f1"><span class="p">Search</span></div>
+      <div class="k cme f1"><span class="p">Lock</span></div>
+      <div class="k cme f1"><span class="p">⏮</span></div>
+      <div class="k cme f1"><span class="p">⏯</span></div>
+      <div class="k cme f1"><span class="p">⏭</span></div>
+      <div class="k cme f1"><span class="p">Mute</span></div>
+      <div class="k cme f1"><span class="p">Vol↓</span></div>
+      <div class="k cme f1"><span class="p">Vol↑</span></div>
+      <div class="k cg f1"><span class="p">🌐 Globe</span></div>
+    </div>
+    <!-- Number row -->
+    <div class="row">
+      <div class="k cn f1"><span class="p">` ~</span></div>
+      <div class="k cn f1"><span class="p">1</span></div>
+      <div class="k cn f1"><span class="p">2</span></div>
+      <div class="k cn f1"><span class="p">3</span></div>
+      <div class="k cn f1"><span class="p">4</span></div>
+      <div class="k cn f1"><span class="p">5</span></div>
+      <div class="k cn f1"><span class="p">6</span></div>
+      <div class="k cn f1"><span class="p">7</span></div>
+      <div class="k cn f1"><span class="p">8</span></div>
+      <div class="k cn f1"><span class="p">9</span></div>
+      <div class="k cn f1"><span class="p">0</span></div>
+      <div class="k cn f1"><span class="p">- _</span></div>
+      <div class="k cn f1"><span class="p">= +</span></div>
+      <div class="k cm f2"><span class="p">⌫ Backspace</span></div>
+    </div>
+    <!-- QWERTY row (13 keys — ISO enter occupies remaining space) -->
+    <div class="row">
+      <div class="k cm f15"><span class="p">Tab</span></div>
+      <div class="k cn f1"><span class="p">Q</span></div>
+      <div class="k cn f1"><span class="p">W</span></div>
+      <div class="k cn f1"><span class="p">E</span></div>
+      <div class="k cn f1"><span class="p">R</span></div>
+      <div class="k cn f1"><span class="p">T</span></div>
+      <div class="k cn f1"><span class="p">Y</span></div>
+      <div class="k cn f1"><span class="p">U</span></div>
+      <div class="k cn f1"><span class="p">I</span></div>
+      <div class="k cn f1"><span class="p">O</span></div>
+      <div class="k cn f1"><span class="p">P</span></div>
+      <div class="k cn f1"><span class="p">[ {</span></div>
+      <div class="k cn f1"><span class="p">] }</span></div>
+    </div>
+    <!-- Home row (14 keys, ISO: # between ' and Enter) -->
+    <div class="row">
+      <div class="k cm f175"><span class="p">Caps Lock</span></div>
+      <div class="k cn f1"><span class="p">A</span></div>
+      <div class="k cn f1"><span class="p">S</span></div>
+      <div class="k cn f1"><span class="p">D</span></div>
+      <div class="k cn f1"><span class="p">F</span></div>
+      <div class="k cn f1"><span class="p">G</span></div>
+      <div class="k cn f1"><span class="p">H</span></div>
+      <div class="k cn f1"><span class="p">J</span></div>
+      <div class="k cn f1"><span class="p">K</span></div>
+      <div class="k cn f1"><span class="p">L</span></div>
+      <div class="k cn f1"><span class="p">; :</span></div>
+      <div class="k cn f1"><span class="p">' @</span></div>
+      <div class="k cn f1"><span class="p"># ~</span></div>
+      <div class="k cm f15"><span class="p">↵ Enter</span></div>
+    </div>
+    <!-- Shift row (13 keys, ISO: \ between LShift and Z) -->
+    <div class="row">
+      <div class="k cm f125"><span class="p">⇧ Shift</span></div>
+      <div class="k cn f1"><span class="p">\ |</span></div>
+      <div class="k cn f1"><span class="p">Z</span></div>
+      <div class="k cn f1"><span class="p">X</span></div>
+      <div class="k cn f1"><span class="p">C</span></div>
+      <div class="k cn f1"><span class="p">V</span></div>
+      <div class="k cn f1"><span class="p">B</span></div>
+      <div class="k cn f1"><span class="p">N</span></div>
+      <div class="k cn f1"><span class="p">M</span></div>
+      <div class="k cn f1"><span class="p">, &lt;</span></div>
+      <div class="k cn f1"><span class="p">. &gt;</span></div>
+      <div class="k cn f1"><span class="p">/ ?</span></div>
+      <div class="k cm f275"><span class="p">⇧ Shift</span></div>
+    </div>
+    <!-- Bottom row -->
+    <div class="row">
+      <div class="k cm f125"><span class="p">⌃ Ctrl</span></div>
+      <div class="k cm f125"><span class="p">⌥ Alt</span></div>
+      <div class="k cm f125"><span class="p">⌘ Cmd</span></div>
+      <div class="k cn f625"><span class="p">Space</span></div>
+      <div class="k cm f125"><span class="p">⌘ Cmd</span></div>
+      <div class="k cl f125"><span class="p">FN</span><span class="s">hold: Mac Fn layer</span></div>
+      <div class="k cnv f1"><span class="p">←</span></div>
+      <div class="k cnv f1"><span class="p">↑</span></div>
+      <div class="k cnv f1"><span class="p">↓</span></div>
+      <div class="k cnv f1"><span class="p">→</span></div>
+    </div>
+  </div>
+
+  <div class="kb-label">Hardware switches &amp; indicators — physical controls outside the main key matrix</div>
+  <div class="kb" style="display:inline-flex; gap:4px; padding:8px;">
+    <div class="k cl" style="flex:0 0 140px; height:54px;"><span class="p">Mac / Win switch</span><span class="s">Win position holds Win layer active</span></div>
+    <div class="k co" style="flex:0 0 90px; height:54px;"><span class="p">BLE</span><span class="s">Switch to Bluetooth</span></div>
+    <div class="k co" style="flex:0 0 90px; height:54px;"><span class="p">2.4G</span><span class="s">Switch to USB dongle</span></div>
+    <div class="k co" style="flex:0 0 90px; height:54px;"><span class="p">⚡ CHG</span><span class="s">Charging indicator</span></div>
+    <div class="k co" style="flex:0 0 90px; height:54px;"><span class="p">⚡ DONE</span><span class="s">Charge complete</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     LAYER 1 — MAC FN
+══════════════════════════════════════════════════ -->
+<div class="lyr" id="l1">
+  <div class="kb">
+    <!-- F-row -->
+    <div class="row">
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k cfn f1"><span class="p">F1</span></div>
+      <div class="k cfn f1"><span class="p">F2</span></div>
+      <div class="k cfn f1"><span class="p">F3</span></div>
+      <div class="k cfn f1"><span class="p">F4</span></div>
+      <div class="k cfn f1"><span class="p">F5</span></div>
+      <div class="k cfn f1"><span class="p">F6</span></div>
+      <div class="k cfn f1"><span class="p">F7</span></div>
+      <div class="k cfn f1"><span class="p">F8</span></div>
+      <div class="k cfn f1"><span class="p">F9</span></div>
+      <div class="k cfn f1"><span class="p">F10</span></div>
+      <div class="k cfn f1"><span class="p">F11</span></div>
+      <div class="k cfn f1"><span class="p">F12</span></div>
+      <div class="k cg f1"><span class="p">🌐 Globe</span><span class="s">transparent → L0</span></div>
+    </div>
+    <!-- Number row — BT1-4 on 1-4, Search on = -->
+    <div class="row">
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k cbt f1"><span class="p">BT 1</span><span class="s">tap: connect / hold 3s: pair</span></div>
+      <div class="k cbt f1"><span class="p">BT 2</span><span class="s">tap: connect / hold 3s: pair</span></div>
+      <div class="k cbt f1"><span class="p">BT 3</span><span class="s">tap: connect / hold 3s: pair</span></div>
+      <div class="k cbt f1"><span class="p">BT 4</span><span class="s">tap: connect / hold 3s: pair</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k cme f1"><span class="p">Search</span></div>
+      <div class="k cg f2"><span class="p">DEL</span><span class="s">Fn+Backspace</span></div>
+    </div>
+    <!-- QWERTY row — Ins at I position -->
+    <div class="row">
+      <div class="k ct f15"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k cfn f1"><span class="p">Ins</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+    </div>
+    <!-- Home row — all transparent -->
+    <div class="row">
+      <div class="k ct f175"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f15"><span class="p">—</span></div>
+    </div>
+    <!-- Shift row — RShift = ⌃⌘ Space (emoji picker, old macOS) -->
+    <div class="row">
+      <div class="k ct f125"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k cme f275"><span class="p">⌃⌘ Space</span><span class="s">Emoji picker (old macOS)</span></div>
+    </div>
+    <!-- Bottom row — RCtrl at FN pos, Home/PgUp/PgDn/End at arrows -->
+    <div class="row">
+      <div class="k ct f125"><span class="p">—</span></div>
+      <div class="k ct f125"><span class="p">—</span></div>
+      <div class="k ct f125"><span class="p">—</span></div>
+      <div class="k ct f625"><span class="p">—</span></div>
+      <div class="k ct f125"><span class="p">—</span></div>
+      <div class="k cm f125"><span class="p">⌃ RCtrl</span><span class="s">Right Ctrl</span></div>
+      <div class="k cnv f1"><span class="p">Home</span></div>
+      <div class="k cnv f1"><span class="p">PgUp</span></div>
+      <div class="k cnv f1"><span class="p">PgDn</span></div>
+      <div class="k cnv f1"><span class="p">End</span></div>
+    </div>
+  </div>
+
+  <div class="kb-label">Hardware switches &amp; indicators</div>
+  <div class="kb" style="display:inline-flex; gap:4px; padding:8px;">
+    <div class="k cx" style="flex:0 0 140px; height:54px;"><span class="p">✕</span><span class="s">no action while in Fn</span></div>
+    <div class="k cx" style="flex:0 0 90px; height:54px;"><span class="p">✕</span></div>
+    <div class="k cx" style="flex:0 0 90px; height:54px;"><span class="p">✕</span></div>
+    <div class="k cx" style="flex:0 0 90px; height:54px;"><span class="p">✕</span></div>
+    <div class="k cx" style="flex:0 0 90px; height:54px;"><span class="p">✕</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     LAYER 2 — WINDOWS
+══════════════════════════════════════════════════ -->
+<div class="lyr" id="l2">
+  <div class="kb">
+    <!-- F-row — standard F-keys by default in Win mode -->
+    <div class="row">
+      <div class="k cn f1"><span class="p">ESC</span></div>
+      <div class="k cfn f1"><span class="p">F1</span></div>
+      <div class="k cfn f1"><span class="p">F2</span></div>
+      <div class="k cfn f1"><span class="p">F3</span></div>
+      <div class="k cfn f1"><span class="p">F4</span></div>
+      <div class="k cfn f1"><span class="p">F5</span></div>
+      <div class="k cfn f1"><span class="p">F6</span></div>
+      <div class="k cfn f1"><span class="p">F7</span></div>
+      <div class="k cfn f1"><span class="p">F8</span></div>
+      <div class="k cfn f1"><span class="p">F9</span></div>
+      <div class="k cfn f1"><span class="p">F10</span></div>
+      <div class="k cfn f1"><span class="p">F11</span></div>
+      <div class="k cfn f1"><span class="p">F12</span></div>
+      <div class="k cn f1"><span class="p">DEL</span></div>
+    </div>
+    <!-- Number row -->
+    <div class="row">
+      <div class="k cn f1"><span class="p">` ~</span></div>
+      <div class="k cn f1"><span class="p">1</span></div>
+      <div class="k cn f1"><span class="p">2</span></div>
+      <div class="k cn f1"><span class="p">3</span></div>
+      <div class="k cn f1"><span class="p">4</span></div>
+      <div class="k cn f1"><span class="p">5</span></div>
+      <div class="k cn f1"><span class="p">6</span></div>
+      <div class="k cn f1"><span class="p">7</span></div>
+      <div class="k cn f1"><span class="p">8</span></div>
+      <div class="k cn f1"><span class="p">9</span></div>
+      <div class="k cn f1"><span class="p">0</span></div>
+      <div class="k cn f1"><span class="p">- _</span></div>
+      <div class="k cn f1"><span class="p">= +</span></div>
+      <div class="k cm f2"><span class="p">⌫ Backspace</span></div>
+    </div>
+    <!-- QWERTY row -->
+    <div class="row">
+      <div class="k cm f15"><span class="p">Tab</span></div>
+      <div class="k cn f1"><span class="p">Q</span></div>
+      <div class="k cn f1"><span class="p">W</span></div>
+      <div class="k cn f1"><span class="p">E</span></div>
+      <div class="k cn f1"><span class="p">R</span></div>
+      <div class="k cn f1"><span class="p">T</span></div>
+      <div class="k cn f1"><span class="p">Y</span></div>
+      <div class="k cn f1"><span class="p">U</span></div>
+      <div class="k cn f1"><span class="p">I</span></div>
+      <div class="k cn f1"><span class="p">O</span></div>
+      <div class="k cn f1"><span class="p">P</span></div>
+      <div class="k cn f1"><span class="p">[ {</span></div>
+      <div class="k cn f1"><span class="p">] }</span></div>
+    </div>
+    <!-- Home row -->
+    <div class="row">
+      <div class="k cm f175"><span class="p">Caps Lock</span></div>
+      <div class="k cn f1"><span class="p">A</span></div>
+      <div class="k cn f1"><span class="p">S</span></div>
+      <div class="k cn f1"><span class="p">D</span></div>
+      <div class="k cn f1"><span class="p">F</span></div>
+      <div class="k cn f1"><span class="p">G</span></div>
+      <div class="k cn f1"><span class="p">H</span></div>
+      <div class="k cn f1"><span class="p">J</span></div>
+      <div class="k cn f1"><span class="p">K</span></div>
+      <div class="k cn f1"><span class="p">L</span></div>
+      <div class="k cn f1"><span class="p">; :</span></div>
+      <div class="k cn f1"><span class="p">' @</span></div>
+      <div class="k cn f1"><span class="p"># ~</span></div>
+      <div class="k cm f15"><span class="p">↵ Enter</span></div>
+    </div>
+    <!-- Shift row -->
+    <div class="row">
+      <div class="k cm f125"><span class="p">⇧ Shift</span></div>
+      <div class="k cn f1"><span class="p">\ |</span></div>
+      <div class="k cn f1"><span class="p">Z</span></div>
+      <div class="k cn f1"><span class="p">X</span></div>
+      <div class="k cn f1"><span class="p">C</span></div>
+      <div class="k cn f1"><span class="p">V</span></div>
+      <div class="k cn f1"><span class="p">B</span></div>
+      <div class="k cn f1"><span class="p">N</span></div>
+      <div class="k cn f1"><span class="p">M</span></div>
+      <div class="k cn f1"><span class="p">, &lt;</span></div>
+      <div class="k cn f1"><span class="p">. &gt;</span></div>
+      <div class="k cn f1"><span class="p">/ ?</span></div>
+      <div class="k cm f275"><span class="p">⇧ Shift</span></div>
+    </div>
+    <!-- Bottom row — Win modifiers -->
+    <div class="row">
+      <div class="k cm f125"><span class="p">⌃ Ctrl</span></div>
+      <div class="k cm f125"><span class="p">⊞ Win</span></div>
+      <div class="k cm f125"><span class="p">Alt</span></div>
+      <div class="k cn f625"><span class="p">Space</span></div>
+      <div class="k cm f125"><span class="p">AltGr</span></div>
+      <div class="k cl f125"><span class="p">FN</span><span class="s">hold: Win Fn layer</span></div>
+      <div class="k cnv f1"><span class="p">←</span></div>
+      <div class="k cnv f1"><span class="p">↑</span></div>
+      <div class="k cnv f1"><span class="p">↓</span></div>
+      <div class="k cnv f1"><span class="p">→</span></div>
+    </div>
+  </div>
+
+  <div class="kb-label">Hardware switches &amp; indicators</div>
+  <div class="kb" style="display:inline-flex; gap:4px; padding:8px;">
+    <div class="k cx" style="flex:0 0 140px; height:54px;"><span class="p">✕</span><span class="s">no action (Win layer already active)</span></div>
+    <div class="k co" style="flex:0 0 90px; height:54px;"><span class="p">BLE</span><span class="s">Switch to Bluetooth</span></div>
+    <div class="k co" style="flex:0 0 90px; height:54px;"><span class="p">2.4G</span><span class="s">Switch to USB dongle</span></div>
+    <div class="k co" style="flex:0 0 90px; height:54px;"><span class="p">⚡ CHG</span><span class="s">Charging indicator</span></div>
+    <div class="k co" style="flex:0 0 90px; height:54px;"><span class="p">⚡ DONE</span><span class="s">Charge complete</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     LAYER 3 — WINDOWS FN
+══════════════════════════════════════════════════ -->
+<div class="lyr" id="l3">
+  <div class="kb">
+    <!-- F-row — media keys (unlike Mac where F-row is already media, Win Fn maps them here) -->
+    <div class="row">
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k cme f1"><span class="p">Bright↓</span></div>
+      <div class="k cme f1"><span class="p">Bright↑</span></div>
+      <div class="k cme f1"><span class="p">⊞+Tab</span><span class="s">Task View</span></div>
+      <div class="k cme f1"><span class="p">⊞+E</span><span class="s">Explorer</span></div>
+      <div class="k cme f1"><span class="p">Search</span></div>
+      <div class="k cme f1"><span class="p">⊞+L</span><span class="s">Lock screen</span></div>
+      <div class="k cme f1"><span class="p">⏮</span></div>
+      <div class="k cme f1"><span class="p">⏯</span></div>
+      <div class="k cme f1"><span class="p">⏭</span></div>
+      <div class="k cme f1"><span class="p">Mute</span></div>
+      <div class="k cme f1"><span class="p">Vol↓</span></div>
+      <div class="k cme f1"><span class="p">Vol↑</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+    </div>
+    <!-- Number row — BT1-4 on 1-4, Calc on = -->
+    <div class="row">
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k cbt f1"><span class="p">BT 1</span><span class="s">tap: connect / hold 3s: pair</span></div>
+      <div class="k cbt f1"><span class="p">BT 2</span><span class="s">tap: connect / hold 3s: pair</span></div>
+      <div class="k cbt f1"><span class="p">BT 3</span><span class="s">tap: connect / hold 3s: pair</span></div>
+      <div class="k cbt f1"><span class="p">BT 4</span><span class="s">tap: connect / hold 3s: pair</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k cme f1"><span class="p">Calc</span></div>
+      <div class="k ct f2"><span class="p">—</span></div>
+    </div>
+    <!-- QWERTY row — Ins at I position -->
+    <div class="row">
+      <div class="k ct f15"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k cfn f1"><span class="p">Ins</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+    </div>
+    <!-- Home row — all transparent -->
+    <div class="row">
+      <div class="k ct f175"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f15"><span class="p">—</span></div>
+    </div>
+    <!-- Shift row — RShift = ⊞+. (Win emoji picker) -->
+    <div class="row">
+      <div class="k ct f125"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k ct f1"><span class="p">—</span></div>
+      <div class="k cme f275"><span class="p">⊞+.</span><span class="s">Emoji picker (Windows)</span></div>
+    </div>
+    <!-- Bottom row -->
+    <div class="row">
+      <div class="k ct f125"><span class="p">—</span></div>
+      <div class="k ct f125"><span class="p">—</span></div>
+      <div class="k ct f125"><span class="p">—</span></div>
+      <div class="k ct f625"><span class="p">—</span></div>
+      <div class="k cm f125"><span class="p">⌃ RCtrl</span><span class="s">Right Ctrl</span></div>
+      <div class="k ct f125"><span class="p">—</span><span class="s">(FN held)</span></div>
+      <div class="k cnv f1"><span class="p">Home</span></div>
+      <div class="k cnv f1"><span class="p">PgUp</span></div>
+      <div class="k cnv f1"><span class="p">PgDn</span></div>
+      <div class="k cnv f1"><span class="p">End</span></div>
+    </div>
+  </div>
+
+  <div class="kb-label">Hardware switches &amp; indicators</div>
+  <div class="kb" style="display:inline-flex; gap:4px; padding:8px;">
+    <div class="k cx" style="flex:0 0 140px; height:54px;"><span class="p">✕</span><span class="s">no action while in Fn</span></div>
+    <div class="k cx" style="flex:0 0 90px; height:54px;"><span class="p">✕</span></div>
+    <div class="k cx" style="flex:0 0 90px; height:54px;"><span class="p">✕</span></div>
+    <div class="k cx" style="flex:0 0 90px; height:54px;"><span class="p">✕</span></div>
+    <div class="k cx" style="flex:0 0 90px; height:54px;"><span class="p">✕</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SPECIAL COMBOS (firmware-level key sequences)
+══════════════════════════════════════════════════ -->
+<div class="combos-section">
+  <h2>Special combos (Fn layer only — hold all keys for 3 seconds unless noted)</h2>
+  <table>
+    <tr><th>Keys</th><th>Action</th><th>Notes</th></tr>
+    <tr>
+      <td><code>Fn + -</code> (hold 3s)</td>
+      <td>⚡ UF2 Bootloader / Flash mode</td>
+      <td>Enters DFU mode for firmware updates. Keyboard mounts as USB drive. Also: hold pinhole reset while plugging in USB.</td>
+    </tr>
+    <tr>
+      <td><code>Fn + J + Z</code></td>
+      <td>Firmware recovery mode</td>
+      <td>Resets the keyboard transport; use if it stops responding</td>
+    </tr>
+    <tr>
+      <td><code>Fn + X + L</code></td>
+      <td>F-key / Media key swap (Function Lock)</td>
+      <td>Swaps F-row and Fn+F-row bindings. Default: F-row=media, Fn=F1–F12. After toggle: F-row=F1–F12, Fn=media. Saved to flash. Tracked separately for Mac and Win.</td>
+    </tr>
+    <tr>
+      <td><code>Fn + B</code></td>
+      <td>Battery level indicator</td>
+      <td>Triggers the battery LED display</td>
+    </tr>
+    <tr>
+      <td><code>Fn + Win</code> (hold 3s)</td>
+      <td>Switch Win-key mode (OUT_FN_WIN)</td>
+      <td>Toggles Windows key lock / function behaviour</td>
+    </tr>
+  </table>
+
+  <p style="margin-top:10px; font-size:0.75rem; background:#f0fdf4; border-left:3px solid #22c55e; padding:8px 12px; border-radius:0 4px 4px 0;">
+    <strong>Entering flash/DFU mode (hardware method):</strong>
+    Unplug the USB cable. Set the keyboard to <strong>WIN mode</strong> and <strong>CABLE</strong>.
+    Hold down the pinhole reset button, then plug in the USB cable while keeping the button held.
+    Release the button — the keyboard mounts as a USB drive. Drag or copy <code>zmk.uf2</code> onto it.
+  </p>
+
+  <p style="margin-top:10px; font-size:0.75rem; color:#666;">
+    <strong>Mac vs Windows mode:</strong>
+    The physical slide switch on the keyboard body maps to the hardware row key.
+    In Mac position the key sends nothing; in Windows position it permanently "holds" the key,
+    which activates Layer 2 (Windows). That is why Layer 2's Mac/Win key is bound to <code>none</code> —
+    it would otherwise loop.
+  </p>
+  <p style="margin-top:6px; font-size:0.75rem; color:#666;">
+    <strong>Transparent keys (—):</strong>
+    A grey dash means the key "falls through" to the layer below.
+    For example, all letter and number keys in the Fn layers pass through to the default layer,
+    so you can still type normally while holding Fn (only the overridden keys change).
+  </p>
+</div>
+
+<script>
+function show(n) {
+  document.querySelectorAll('.lyr').forEach((el, i) => el.classList.toggle('on', i === n));
+  document.querySelectorAll('.tab').forEach((el, i) => el.classList.toggle('on', i === n));
+}
+</script>
+</body>
+</html>

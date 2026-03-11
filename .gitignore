@@ -1,4 +1,5 @@
 /.west
+/.claude
 /bootloader
 /modules
 /tools
